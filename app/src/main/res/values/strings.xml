@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">ProductsReview</string>
+    <string name="get_xml">Get XML</string>
+    <string name="view_data">View Data</string>
 </resources>
