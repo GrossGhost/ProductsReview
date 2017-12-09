@@ -1,6 +1,7 @@
 package com.ainsoft.test.productsreview.ui;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -26,9 +27,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
-    @BindView(R.id.get_xml_button)
+    @BindView(R.id.button_get_xml)
     Button getXmlButton;
-    @BindView(R.id.view_data_button)
+    @BindView(R.id.button_view_data)
     Button viewDataButton;
 
 
@@ -39,8 +40,11 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
     }
-
-    @OnClick(R.id.get_xml_button)
+    @OnClick(R.id.button_view_data)
+    public void goToReview() {
+        startActivity(new Intent(this, ReviewActivity.class));
+    }
+    @OnClick(R.id.button_get_xml)
     public void getXml() {
         ApiService service = RestManager.getApiService();
         Call<Xml> call = service.getXml();
@@ -55,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
                 ArrayList<Product> products = response.body().getProducts().getProduct();
 
                 if (products.size() > 0 )
-                    db.execSQL("DROP TABLE " + ProductsContract.ProductEntry.TABLE_NAME);
+                    db.delete(ProductsContract.ProductEntry.TABLE_NAME, null, null);
 
                 for (Product product : products) {
                     Log.d("RESPONSE", product.getName());
