@@ -5,4 +5,7 @@
     <string name="id">Id</string>
     <string name="name">Name</string>
     <string name="price">Price</string>
+    <string name="new_price">New price</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">Ok</string>
 </resources>

@@ -12,13 +12,11 @@ public class Products {
     @ElementList(inline = true)
     private ArrayList<Product> product;
 
-    public ArrayList<Product> getProduct ()
-    {
+    public ArrayList<Product> getProduct() {
         return product;
     }
 
-    public void setProduct (ArrayList<Product> product)
-    {
+    public void setProduct(ArrayList<Product> product) {
         this.product = product;
     }
 }

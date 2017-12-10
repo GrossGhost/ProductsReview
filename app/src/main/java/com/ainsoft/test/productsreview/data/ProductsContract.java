@@ -3,7 +3,8 @@ package com.ainsoft.test.productsreview.data;
 
 public class ProductsContract {
 
-    private ProductsContract(){}
+    private ProductsContract() {
+    }
 
     public static final class ProductEntry {
 

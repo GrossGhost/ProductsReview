@@ -1,15 +1,17 @@
 package com.ainsoft.test.productsreview.ui;
 
-
+import android.app.DialogFragment;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
+import com.ainsoft.test.productsreview.ChangePriceDialog;
+import com.ainsoft.test.productsreview.Consts;
 import com.ainsoft.test.productsreview.ProductsAdapter;
+
 import com.ainsoft.test.productsreview.R;
 import com.ainsoft.test.productsreview.data.ProductsContract;
 import com.ainsoft.test.productsreview.data.ProductsDbHelper;
@@ -20,10 +22,12 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ReviewActivity extends AppCompatActivity {
+public class ReviewActivity extends AppCompatActivity implements ChangePriceDialog.NoticeDialogListener {
 
     @BindView(R.id.recyclerView)
     RecyclerView productsRecView;
+
+    private ProductsAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +35,7 @@ public class ReviewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_review);
         ButterKnife.bind(this);
 
-        ProductsAdapter adapter = new ProductsAdapter(this, getProductsList());
+        adapter = new ProductsAdapter(this, getProductsList());
         productsRecView.setLayoutManager(new LinearLayoutManager(this));
         productsRecView.setAdapter(adapter);
 
@@ -46,7 +50,7 @@ public class ReviewActivity extends AppCompatActivity {
         String[] projection = {
                 ProductsContract.ProductEntry._ID,
                 ProductsContract.ProductEntry.COLUMN_NAME,
-                ProductsContract.ProductEntry.COLUMN_PRICE };
+                ProductsContract.ProductEntry.COLUMN_PRICE};
 
         Cursor cursor = db.query(
                 ProductsContract.ProductEntry.TABLE_NAME,
@@ -71,11 +75,16 @@ public class ReviewActivity extends AppCompatActivity {
 
                 productArrayList.add(currentProduct);
             }
-
         } finally {
             cursor.close();
         }
-
         return productArrayList;
+    }
+
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog) {
+        String newPrice = dialog.getArguments().getString(Consts.NEW_PRICE);
+        int position = dialog.getArguments().getInt(Consts.SELECTED_POSITION);
+        adapter.setNewPriceValue(position, newPrice);
     }
 }

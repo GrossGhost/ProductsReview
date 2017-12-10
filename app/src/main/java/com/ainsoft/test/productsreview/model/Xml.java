@@ -8,13 +8,11 @@ public class Xml {
     @Element(name = "products")
     private Products products;
 
-    public Products getProducts ()
-    {
+    public Products getProducts() {
         return products;
     }
 
-    public void setProducts (Products products)
-    {
+    public void setProducts(Products products) {
         this.products = products;
     }
 

@@ -7,7 +7,10 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.ainsoft.test.productsreview.R;
 import com.ainsoft.test.productsreview.data.ProductsContract;
@@ -31,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
     Button getXmlButton;
     @BindView(R.id.button_view_data)
     Button viewDataButton;
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
 
 
     @Override
@@ -46,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
     }
     @OnClick(R.id.button_get_xml)
     public void getXml() {
+        progressBar.setVisibility(View.VISIBLE);
+
         ApiService service = RestManager.getApiService();
         Call<Xml> call = service.getXml();
         call.enqueue(new Callback<Xml>() {
@@ -71,11 +78,14 @@ public class MainActivity extends AppCompatActivity {
                     db.insert(ProductsContract.ProductEntry.TABLE_NAME, null, values);
 
                 }
-
+                progressBar.setVisibility(View.INVISIBLE);
+                Toast.makeText(getApplicationContext(), "Data updated", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFailure(@NonNull Call<Xml> call, @NonNull Throwable t) {
+                progressBar.setVisibility(View.INVISIBLE);
+                Toast.makeText(getApplicationContext(), "Updating error", Toast.LENGTH_SHORT).show();
 
             }
         });

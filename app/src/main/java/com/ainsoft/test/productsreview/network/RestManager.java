@@ -10,13 +10,13 @@ public class RestManager {
     private static ApiService apiService;
 
     @NonNull
-    public static ApiService getApiService(){
+    public static ApiService getApiService() {
         //I know that double checked locking is not a good pattern, but it's enough here
         ApiService service = apiService;
-        if (service == null){
-            synchronized (RestManager.class){
+        if (service == null) {
+            synchronized (RestManager.class) {
                 service = apiService;
-                if (service == null){
+                if (service == null) {
                     service = apiService = createService();
                 }
             }
